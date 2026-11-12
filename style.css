@@ -1,0 +1,161 @@
+:root {
+  --bg: #0a0c10;
+  --light: 255, 238, 160;
+  --h: min(66vh, 460px);          /* alto de la linterna */
+  --w: calc(var(--h) * 140 / 380); /* ancho proporcional */
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body { height: 100%; }
+
+body {
+  background: var(--bg);
+  overflow: hidden;
+  transition: background-color .6s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body.on { background: #12151c; }
+
+/* Resplandor ambiental sobre toda la pantalla */
+.glow {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 80% at 50% 38%, rgba(var(--light), .28), transparent 70%);
+  opacity: 0;
+  transition: opacity .6s ease;
+  pointer-events: none;
+}
+body.on .glow { opacity: 1; animation: pulse 4s ease-in-out infinite; }
+
+.stage {
+  height: 100%;
+  display: grid;
+  place-items: center;
+}
+
+.flashlight {
+  position: relative;
+  height: var(--h);
+  width: var(--w);
+  animation: float 6s ease-in-out infinite;
+}
+
+.body {
+  display: block;
+  height: 100%;
+  width: 100%;
+  overflow: visible;
+  filter: drop-shadow(0 20px 30px rgba(0, 0, 0, .6));
+}
+
+/* Lente */
+.lens {
+  fill: #2a2f3a;
+  transition: fill .3s ease;
+}
+body.on .lens {
+  fill: url(#lens);
+  filter: drop-shadow(0 0 14px rgba(var(--light), 1));
+}
+
+/* Haz de luz */
+.beam {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% - 4px);
+  width: min(1400px, 190vh);
+  height: 100vh;
+  transform: translateX(-50%);
+  transform-origin: 50% 100%;
+  clip-path: polygon(45% 100%, 55% 100%, 100% 0, 0 0);
+  background:
+    linear-gradient(to top, rgba(var(--light), .9), rgba(var(--light), .35) 45%, rgba(var(--light), 0) 100%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .35s ease;
+}
+body.on .beam {
+  opacity: 1;
+  animation: flicker .7s steps(1, end) 1, sway 7s ease-in-out .7s infinite;
+}
+
+/* Partículas de polvo dentro del haz */
+.dust {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 252, 230, .9);
+  opacity: 0;
+  animation: drift linear infinite;
+}
+
+/* Botón central */
+.switch {
+  position: absolute;
+  left: 50%;
+  top: calc(190 / 380 * 100%);
+  width: calc(46 / 140 * 100%);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  border: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #5b6478, #2a2f3b 70%);
+  box-shadow: inset 0 -3px 6px rgba(0, 0, 0, .5), 0 2px 6px rgba(0, 0, 0, .6);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.switch:active {
+  transform: translate(-50%, -50%) scale(.9);
+  box-shadow: inset 0 3px 8px rgba(0, 0, 0, .7);
+}
+.switch:focus-visible { outline: 3px solid #8ab4ff; outline-offset: 4px; }
+
+.switch-core {
+  width: 36%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #c0392b;
+  box-shadow: 0 0 6px 1px rgba(192, 57, 43, .7);
+  transition: background .3s ease, box-shadow .3s ease;
+}
+body.on .switch-core {
+  background: #4cff8a;
+  box-shadow: 0 0 10px 3px rgba(76, 255, 138, .85);
+}
+
+/* Animaciones */
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%      { transform: translateY(-8px) rotate(.6deg); }
+}
+@keyframes pulse {
+  0%, 100% { filter: brightness(1); }
+  50%      { filter: brightness(1.15); }
+}
+@keyframes flicker {
+  0%   { opacity: 0; }
+  15%  { opacity: 1; }
+  25%  { opacity: .2; }
+  40%  { opacity: 1; }
+  50%  { opacity: .4; }
+  70%  { opacity: 1; }
+  80%  { opacity: .7; }
+  100% { opacity: 1; }
+}
+@keyframes sway {
+  0%, 100% { transform: translateX(-50%) rotate(-1.2deg); }
+  50%      { transform: translateX(-50%) rotate(1.2deg); }
+}
+@keyframes drift {
+  0%   { transform: translateY(0) translateX(0); opacity: 0; }
+  15%  { opacity: .9; }
+  85%  { opacity: .9; }
+  100% { transform: translateY(-120px) translateX(var(--dx, 20px)); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flashlight, .glow, .beam, .dust { animation: none !important; }
+}

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Una linterna animada: enciéndela y apágala con el botón central.">
+  <meta name="theme-color" content="#0a0c10">
+  <title>Linterna</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%94%A6%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="glow" aria-hidden="true"></div>
+
+  <main class="stage">
+    <div class="flashlight">
+      <!-- Haz de luz -->
+      <div class="beam" aria-hidden="true"></div>
+
+      <!-- Cuerpo de la linterna -->
+      <svg class="body" viewBox="0 0 140 380" role="img" aria-label="Linterna" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="metal" x1="0" x2="1" y1="0" y2="0">
+            <stop offset="0" stop-color="#1b1f27"/>
+            <stop offset="0.3" stop-color="#4a5262"/>
+            <stop offset="0.5" stop-color="#5d667a"/>
+            <stop offset="0.75" stop-color="#363c49"/>
+            <stop offset="1" stop-color="#171a21"/>
+          </linearGradient>
+          <linearGradient id="head" x1="0" x2="1" y1="0" y2="0">
+            <stop offset="0" stop-color="#262b35"/>
+            <stop offset="0.35" stop-color="#5a6376"/>
+            <stop offset="0.6" stop-color="#3b4150"/>
+            <stop offset="1" stop-color="#1a1d25"/>
+          </linearGradient>
+          <radialGradient id="lens" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0" stop-color="#fffbe0"/>
+            <stop offset="0.6" stop-color="#ffe98a"/>
+            <stop offset="1" stop-color="#e0b030"/>
+          </radialGradient>
+        </defs>
+
+        <!-- Cabeza -->
+        <path d="M2 6 H138 L122 92 H18 Z" fill="url(#head)"/>
+        <rect x="0" y="0" width="140" height="12" rx="6" fill="url(#head)"/>
+        <ellipse class="lens" cx="70" cy="9" rx="58" ry="7" />
+        <rect x="26" y="92" width="88" height="16" rx="3" fill="#20242d"/>
+
+        <!-- Cuerpo -->
+        <rect x="30" y="106" width="80" height="262" rx="20" fill="url(#metal)"/>
+
+        <!-- Agarre estriado -->
+        <g stroke="#10131a" stroke-width="3" stroke-linecap="round" opacity=".7">
+          <line x1="42" y1="262" x2="98" y2="262"/>
+          <line x1="42" y1="276" x2="98" y2="276"/>
+          <line x1="42" y1="290" x2="98" y2="290"/>
+          <line x1="42" y1="304" x2="98" y2="304"/>
+          <line x1="42" y1="318" x2="98" y2="318"/>
+          <line x1="42" y1="332" x2="98" y2="332"/>
+        </g>
+
+        <!-- Alojamiento del botón -->
+        <circle cx="70" cy="190" r="29" fill="#14171d"/>
+        <circle cx="70" cy="190" r="29" fill="none" stroke="#6b7488" stroke-width="1.5" opacity=".6"/>
+      </svg>
+
+      <!-- Único control: el botón central -->
+      <button class="switch" type="button" id="switch" aria-pressed="false" aria-label="Encender linterna">
+        <span class="switch-core"></span>
+      </button>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
