@@ -1,6 +1,6 @@
 :root {
   --bg: #0a0c10;
-  --light: 255, 40, 40;
+  --light: 255, 238, 160;
   --h: min(66vh, 460px);          /* alto de la linterna */
   --w: calc(var(--h) * 140 / 380); /* ancho proporcional */
 }
@@ -85,7 +85,7 @@ body.on .beam {
 .dust {
   position: absolute;
   border-radius: 50%;
-  background: rgba(255, 210, 210, .9);
+  background: rgba(255, 252, 230, .9);
   opacity: 0;
   animation: drift linear infinite;
 }
